@@ -1,0 +1,12 @@
+- Separate in groups
+- Define variables with automatic typing
+- Lists (nestling is optional)
+- Support comments
+
+
+Symbols
+
+== gname == - Separate groups
+variable = value - Variable assigning
+listname = a, b, c - Listing
+-> - Comment  

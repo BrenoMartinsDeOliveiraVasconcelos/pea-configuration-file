@@ -1,0 +1,7 @@
+NAMING_REGEX = r"^([0-9]){0,}(([a-z]|[A-Z]|[_\-]){1,}([0-9]){0,}){1,}$"
+NUMBER_REGEX = r"^([0-9]){1,}((\.){1}([0-9]{1,})){0,1}$"
+GROUP_CHAR = "=="
+VARIABLE_ASSIGN = "="
+LIST_SEP = ","
+LIST_IND = "|"
+COMMENT = "->"
