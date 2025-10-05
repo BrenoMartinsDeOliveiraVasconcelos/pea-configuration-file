@@ -42,7 +42,7 @@ class Pea():
                 if self.save_comments:
                     parsed_line["type"] = "comment"
                     parsed_line["name"] = ""
-                    parsed_line["value"] = helpers.remove_prefix(line, constants.COMMENT)
+                    parsed_line["value"] = helpers.remove_begin_end(helpers.remove_prefix(line, constants.COMMENT), " ")
                 else:
                     continue
             elif line.startswith(constants.GROUP_CHAR): # If starts with group
@@ -56,7 +56,17 @@ class Pea():
 
             # remove comment on non-commennts
             if parsed_line["type"] != "comment" and "value" in parsed_line.keys():
+                value_split = parsed_line["value"].split(constants.COMMENT)
                 parsed_line["value"] = self._remove_comment(parsed_line["value"])
+
+
+                if len(value_split) > 1:
+                    self.file_content.append({
+                        "type": "comment",
+                        "name": "",
+                        "value": helpers.remove_begin_end(value_split[1], " "),
+                        "line_num": line_num
+                    })
 
             # Add parsed line
             parsed_line["line_num"] = line_num
@@ -99,7 +109,6 @@ class Pea():
     def parse(self):
         current_group = ""
         for line in self.file_content:
-            print(line)
             line_num = line["line_num"]
             name = line["name"]
             tp = line["type"] 
@@ -133,4 +142,6 @@ class Pea():
                 self.memory["groups"][-1]["variables"].append(len(self.memory["variables"]) - 1) # -1 is the current as there cannot be group redefinition
 
 
-            print(self.memory)
+            if tp == "comment":
+                if self.save_comments:
+                    self.memory["comments"].append({"comment": line["value"], "line": line_num})   
